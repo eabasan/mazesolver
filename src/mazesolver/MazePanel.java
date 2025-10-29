@@ -22,10 +22,11 @@ public class MazePanel extends JPanel{
 
     public MazePanel(Maze maze) {
         this.maze = maze;
-        setPreferredSize(new Dimension(600, 800));
+        // tamaño preferido: ajustar si quieres más grandes o pequeños
+        int preferSize = Math.min(800, Math.max(400, 40 * Math.max(maze.rows, maze.cols)));
+        setPreferredSize(new Dimension(preferSize, preferSize));
     }
 
-    // llamadas desde threads de búsqueda: usar invokeLater al actualizar UI
     public void addVisited(Node n) { visited.add(n); repaint(); }
     public void addFrontier(Node n) { frontier.add(n); repaint(); }
     public void removeFrontier(Node n) { frontier.remove(n); repaint(); }
@@ -34,61 +35,97 @@ public class MazePanel extends JPanel{
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int cellSize = Math.min(getWidth() / Math.max(maze.cols,1), getHeight() / Math.max(maze.rows,1));
+
+        int w = getWidth();
+        int h = getHeight();
+        int cellSize = Math.min(w / Math.max(maze.cols,1), h / Math.max(maze.rows,1));
         if (cellSize <= 0) cellSize = 20;
 
-        // dibujar celdas
+        int offsetX = (w - cellSize * maze.cols) / 2;
+        int offsetY = (h - cellSize * maze.rows) / 2;
+
+        // pintar celdas (libres = blanco, fondo = blanco)
         for (int r = 0; r < maze.rows; r++) {
             for (int c = 0; c < maze.cols; c++) {
-                int x = c * cellSize, y = r * cellSize;
-                if (maze.walls[r][c]) {
-                    g.setColor(Color.BLACK);
-                } else {
-                    g.setColor(Color.WHITE);
-                }
+                int x = offsetX + c * cellSize;
+                int y = offsetY + r * cellSize;
+
+                g.setColor(Color.WHITE);
                 g.fillRect(x, y, cellSize, cellSize);
-                g.setColor(Color.GRAY);
+
+                g.setColor(Color.LIGHT_GRAY);
                 g.drawRect(x, y, cellSize, cellSize);
             }
         }
 
-        // dibujar frontera (nodos pendientes)
+        // pintar paredes horizontales
+        g.setColor(Color.BLACK);
+        for (int r = 0; r < maze.horWalls.length; r++) {
+            for (int c = 0; c < maze.cols; c++) {
+                if (maze.horWalls[r][c]) {
+                    int x1 = offsetX + c * cellSize;
+                    int y = offsetY + (r) * cellSize; // r==0 => línea superior
+                    g.fillRect(x1, y - 2, cellSize, 4); // pequeño grosor para ver bien
+                }
+            }
+        }
+
+        // pintar paredes verticales
+        for (int r = 0; r < maze.rows; r++) {
+            for (int c = 0; c < maze.verWalls[0].length; c++) {
+                if (maze.verWalls[r][c]) {
+                    int x = offsetX + c * cellSize;
+                    int y1 = offsetY + r * cellSize;
+                    g.fillRect(x - 2, y1, 4, cellSize); // pequeño grosor
+                }
+            }
+        }
+
+        // pintar frontera
         synchronized (frontier) {
             g.setColor(new Color(173, 216, 230)); // light blue
             for (Node n : frontier) {
-                int x = n.col * cellSize, y = n.row * cellSize;
-                g.fillRect(x+1, y+1, cellSize-2, cellSize-2);
+                if (!maze.inBounds(n.row, n.col)) continue;
+                int x = offsetX + n.col * cellSize;
+                int y = offsetY + n.row * cellSize;
+                g.fillRect(x + 2, y + 2, cellSize - 4, cellSize - 4);
             }
         }
 
-        // dibujar visitados
+        // pintar visitados
         synchronized (visited) {
             g.setColor(new Color(135, 206, 235)); // sky blue
             for (Node n : visited) {
-                int x = n.col * cellSize, y = n.row * cellSize;
-                g.fillRect(x+2, y+2, cellSize-4, cellSize-4);
+                if (!maze.inBounds(n.row, n.col)) continue;
+                int x = offsetX + n.col * cellSize;
+                int y = offsetY + n.row * cellSize;
+                g.fillRect(x + 3, y + 3, cellSize - 6, cellSize - 6);
             }
         }
 
-        // dibujar ruta final (si existe)
+        // ruta final
         if (path != null && !path.isEmpty()) {
             g.setColor(Color.BLUE);
             for (Node n : path) {
-                int x = n.col * cellSize, y = n.row * cellSize;
+                if (!maze.inBounds(n.row, n.col)) continue;
+                int x = offsetX + n.col * cellSize;
+                int y = offsetY + n.row * cellSize;
                 g.fillRect(x + cellSize/4, y + cellSize/4, cellSize/2, cellSize/2);
             }
         }
 
-        // inicio y fin
-        if (maze.start != null) {
+        // inicio y fin encima de todo
+        if (maze.start != null && maze.inBounds(maze.start.row, maze.start.col)) {
             g.setColor(Color.GREEN);
-            int x = maze.start.col * cellSize, y = maze.start.row * cellSize;
-            g.fillRect(x+1, y+1, cellSize-2, cellSize-2);
+            int x = offsetX + maze.start.col * cellSize;
+            int y = offsetY + maze.start.row * cellSize;
+            g.fillRect(x + 2, y + 2, cellSize - 4, cellSize - 4);
         }
-        if (maze.goal != null) {
+        if (maze.goal != null && maze.inBounds(maze.goal.row, maze.goal.col)) {
             g.setColor(Color.RED);
-            int x = maze.goal.col * cellSize, y = maze.goal.row * cellSize;
-            g.fillRect(x+1, y+1, cellSize-2, cellSize-2);
+            int x = offsetX + maze.goal.col * cellSize;
+            int y = offsetY + maze.goal.row * cellSize;
+            g.fillRect(x + 2, y + 2, cellSize - 4, cellSize - 4);
         }
     }
 }

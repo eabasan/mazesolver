@@ -25,9 +25,11 @@ public class BFS implements SearchAlgorithm {
                 return reconstructPath(cur);
             }
 
-            for (int[] d : new int[][]{{-1, 0}, {0, -1}, {1, 0}, {0, 1}}) {
+            // orden: up, left, down, right
+            int[][] dirs = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
+            for (int[] d : dirs) {
                 int nr = cur.row + d[0], nc = cur.col + d[1];
-                if (maze.isFree(nr, nc)) {
+                if (maze.canMove(cur.row, cur.col, nr, nc)) {
                     Node neigh = new Node(nr, nc, cur);
                     if (!visited.contains(neigh)) {
                         visited.add(neigh);

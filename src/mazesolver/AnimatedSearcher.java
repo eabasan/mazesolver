@@ -12,18 +12,17 @@ import javax.swing.*;
  * @author elena
  */
 public class AnimatedSearcher {
-    // Ejecuta BFS animado; devuelve la ruta final (o lista vacía).
-    public static List<Node> bfsAnimate(Maze maze, Node start, Node goal, MazePanel panel, int delayMs) {
+
+   public static List<Node> bfsAnimate(Maze maze, Node start, Node goal, MazePanel panel, int delayMs) {
         Queue<Node> queue = new LinkedList<>();
         Set<Node> visited = new HashSet<>();
         queue.add(start);
         visited.add(start);
-        panel.addFrontier(start);
+        SwingUtilities.invokeLater(() -> panel.addFrontier(start));
 
         while (!queue.isEmpty()) {
             Node cur = queue.poll();
 
-            // marcar visitado
             SwingUtilities.invokeLater(() -> {
                 panel.removeFrontier(cur);
                 panel.addVisited(cur);
@@ -36,9 +35,10 @@ public class AnimatedSearcher {
                 return path;
             }
 
-            for (int[] d : new int[][]{{-1,0},{0,-1},{1,0},{0,1}}) {
+            int[][] dirs = {{-1,0},{0,-1},{1,0},{0,1}};
+            for (int[] d : dirs) {
                 int nr = cur.row + d[0], nc = cur.col + d[1];
-                if (maze.isFree(nr, nc)) {
+                if (maze.canMove(cur.row, cur.col, nr, nc)) {
                     Node neigh = new Node(nr, nc, cur);
                     if (!visited.contains(neigh)) {
                         visited.add(neigh);
@@ -49,7 +49,6 @@ public class AnimatedSearcher {
             }
             sleep(delayMs);
         }
-
         return Collections.emptyList();
     }
 
@@ -58,7 +57,7 @@ public class AnimatedSearcher {
         Set<Node> visited = new HashSet<>();
         stack.push(start);
         visited.add(start);
-        panel.addFrontier(start);
+        SwingUtilities.invokeLater(() -> panel.addFrontier(start));
 
         while (!stack.isEmpty()) {
             Node cur = stack.pop();
@@ -75,9 +74,10 @@ public class AnimatedSearcher {
                 return path;
             }
 
-            for (int[] d : new int[][]{{-1,0},{0,-1},{1,0},{0,1}}) {
+            int[][] dirs = {{-1,0},{0,-1},{1,0},{0,1}};
+            for (int[] d : dirs) {
                 int nr = cur.row + d[0], nc = cur.col + d[1];
-                if (maze.isFree(nr, nc)) {
+                if (maze.canMove(cur.row, cur.col, nr, nc)) {
                     Node neigh = new Node(nr, nc, cur);
                     if (!visited.contains(neigh)) {
                         visited.add(neigh);
