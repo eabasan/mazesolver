@@ -23,7 +23,9 @@ public class MazeApp {
        SwingUtilities.invokeLater(() -> {
             try {
                 String file = "src/mazesolver/maze.txt"; // coloca aquí tu fichero (o pásalo como arg)
-                Maze maze = MazeLoader.loadFromFile(file);
+                //Maze maze = MazeLoader.loadFromFile(file);
+                Maze maze = MazeLoaderAscii.loadFromFile(file);
+
 
                 String[] algorithms = {"BFS", "DFS"};
                 int algChoice = JOptionPane.showOptionDialog(null, "Choose algorithm:",
