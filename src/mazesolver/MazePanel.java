@@ -18,9 +18,9 @@ import javax.swing.*;
 public class MazePanel extends JPanel{
     // The maze to display
     private final Maze maze;
-    // Keep track of cells we've already checked (in sky blue)
+    // Keep track of cells we've already checked (in blue)
     private final Set<Node> visited = Collections.synchronizedSet(new HashSet<>());
-    // Keep track of cells we need to check next (in light blue)
+    // Keep track of cells we need to check next (in orange)
     private final Set<Node> frontier = Collections.synchronizedSet(new HashSet<>());
     // The path from start to goal when we find it (in dark blue)
     private List<Node> path = Collections.synchronizedList(new ArrayList<>());
@@ -35,9 +35,9 @@ public class MazePanel extends JPanel{
     // Methods to update what we show on screen
     // Each method redraws the screen after updating
     
-    // Mark a cell as visited (sky blue)
+    // Mark a cell as visited (blue)
     public void addVisited(Node n) { visited.add(n); repaint(); }
-    // Add a cell to check next (light blue)
+    // Add a cell to check next (orange)
     public void addFrontier(Node n) { frontier.add(n); repaint(); }
     // Remove a cell from the frontier after checking it
     public void removeFrontier(Node n) { frontier.remove(n); repaint(); }
@@ -59,7 +59,7 @@ public class MazePanel extends JPanel{
         int offsetX = (w - cellSize * maze.cols) / 2;
         int offsetY = (h - cellSize * maze.rows) / 2;
 
-        // Draw all cells as white squares with light gray borders
+        // Draw all cells as WHITE squares with light gray borders
         for (int r = 0; r < maze.rows; r++) {
             for (int c = 0; c < maze.cols; c++) {
                 int x = offsetX + c * cellSize;
@@ -73,7 +73,7 @@ public class MazePanel extends JPanel{
             }
         }
 
-        // Draw horizontal walls as thick black lines
+        // Draw horizontal WALLS as thick black lines
         g.setColor(Color.BLACK);
         for (int r = 0; r < maze.horWalls.length; r++) {
             for (int c = 0; c < maze.cols; c++) {
@@ -86,7 +86,7 @@ public class MazePanel extends JPanel{
             }
         }
 
-        // Draw vertical walls as thick black lines
+        // Draw vertical WALLS as thick black lines
         for (int r = 0; r < maze.rows; r++) {
             for (int c = 0; c < maze.verWalls[0].length; c++) {
                 if (maze.verWalls[r][c]) {
@@ -98,9 +98,9 @@ public class MazePanel extends JPanel{
             }
         }
 
-        // Draw cells we need to check next (frontier) in light blue
+        // Draw cells we need to check next (frontier) in ORANGE
         synchronized (frontier) {
-            g.setColor(new Color(173, 216, 230)); // light blue
+            g.setColor(new Color(255, 165, 0)); // orange
             for (Node n : frontier) {
                 if (!maze.inBounds(n.row, n.col)) continue;
                 int x = offsetX + n.col * cellSize;
@@ -109,9 +109,9 @@ public class MazePanel extends JPanel{
             }
         }
 
-        // Draw cells we've already checked (visited) in sky blue
+        // Draw cells we've already checked (visited) in BLUE
         synchronized (visited) {
-            g.setColor(new Color(135, 206, 235)); // sky blue
+            g.setColor(new Color(100, 149, 237)); // blue
             for (Node n : visited) {
                 if (!maze.inBounds(n.row, n.col)) continue;
                 int x = offsetX + n.col * cellSize;
@@ -120,7 +120,7 @@ public class MazePanel extends JPanel{
             }
         }
 
-        // Draw the final path in dark blue (smaller squares)
+        // Draw the FINAL path in dark BLUE (smaller squares)
         if (path != null && !path.isEmpty()) {
             g.setColor(Color.BLUE);
             for (Node n : path) {
@@ -132,7 +132,7 @@ public class MazePanel extends JPanel{
             }
         }
 
-        // Draw start (green) and goal (red) positions on top of everything
+        // Draw START (green) and GOAL (red) positions on top of everything
         if (maze.start != null && maze.inBounds(maze.start.row, maze.start.col)) {
             g.setColor(Color.GREEN);
             int x = offsetX + maze.start.col * cellSize;

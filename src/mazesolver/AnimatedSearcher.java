@@ -20,7 +20,7 @@ public class AnimatedSearcher {
         Set<Node> visited = new HashSet<>();
         queue.add(start);
         visited.add(start);
-        // Show the start position as frontier (light blue)
+        // Show the start position as frontier (orange)
         SwingUtilities.invokeLater(() -> panel.addFrontier(start));
 
         while (!queue.isEmpty()) {
@@ -29,8 +29,8 @@ public class AnimatedSearcher {
 
             // Update display: remove from frontier and mark as visited
             SwingUtilities.invokeLater(() -> {
-                panel.removeFrontier(cur);  // Remove light blue
-                panel.addVisited(cur);      // Add sky blue
+                panel.removeFrontier(cur);  // Remove orange
+                panel.addVisited(cur);      // Add blue
             });
             sleep(delayMs);  // Wait so we can see the change
 
@@ -50,7 +50,7 @@ public class AnimatedSearcher {
                     if (!visited.contains(neigh)) {
                         visited.add(neigh);
                         queue.add(neigh);
-                        // Show new position in frontier (light blue)
+                        // Show new position in frontier (orange)
                         SwingUtilities.invokeLater(() -> panel.addFrontier(neigh));
                     }
                 }
@@ -68,7 +68,7 @@ public class AnimatedSearcher {
         Set<Node> visited = new HashSet<>();
         stack.push(start);
         visited.add(start);
-        // Show the start position as frontier (light blue)
+        // Show the start position as frontier (orange)
         SwingUtilities.invokeLater(() -> panel.addFrontier(start));
 
         while (!stack.isEmpty()) {
@@ -77,8 +77,8 @@ public class AnimatedSearcher {
 
             // Update display: remove from frontier and mark as visited
             SwingUtilities.invokeLater(() -> {
-                panel.removeFrontier(cur);  // Remove light blue
-                panel.addVisited(cur);      // Add sky blue
+                panel.removeFrontier(cur);  // Remove orange
+                panel.addVisited(cur);      // Add blue
             });
             sleep(delayMs);  // Wait so we can see the change
 
@@ -98,7 +98,7 @@ public class AnimatedSearcher {
                     if (!visited.contains(neigh)) {
                         visited.add(neigh);
                         stack.push(neigh);
-                        // Show new position in frontier (light blue)
+                        // Show new position in frontier (orange)
                         SwingUtilities.invokeLater(() -> panel.addFrontier(neigh));
                     }
                 }
