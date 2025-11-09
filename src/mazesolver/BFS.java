@@ -1,9 +1,8 @@
 /*
- * This class implements the Breadth-First Search algorithm.
- * BFS explores the maze by checking all positions at the current distance
- * before moving to positions that are further away.
- * This ensures we find the shortest path to the goal.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
+
 package mazesolver;
 
 import java.util.*;

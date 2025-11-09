@@ -1,10 +1,8 @@
 /*
- * This class represents the maze structure.
- * It keeps track of:
- * - The size of the maze (rows and columns)
- * - Where the walls are (horizontal and vertical)
- * - The start and goal positions
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
+
 package mazesolver;
 public class Maze {
     // Size of the maze

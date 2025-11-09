@@ -1,8 +1,8 @@
 /*
- * This class represents a position in the maze.
- * Each Node has a row and column position, and keeps track of which Node we came from (parent).
- * This helps us remember the path we took through the maze.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
+
 package mazesolver;
 
 import java.util.Objects;

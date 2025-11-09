@@ -1,8 +1,8 @@
 /*
- * This interface defines what every search algorithm must do.
- * Any class that wants to solve the maze must implement this interface.
- * Examples are BFS (Breadth-First Search) and DFS (Depth-First Search).
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
+
 package mazesolver;
 
 import java.util.List;

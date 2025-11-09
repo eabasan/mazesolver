@@ -1,10 +1,8 @@
 /*
- * This class loads a maze from a text file.
- * The maze file format is:
- * - Lines of ASCII characters showing walls: | for vertical, - for horizontal
- * - Second to last line: start position (row,col)
- * - Last line: goal position (row,col)
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
+
 package mazesolver;
 
 import java.io.IOException;

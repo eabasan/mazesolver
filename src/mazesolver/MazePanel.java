@@ -1,12 +1,8 @@
 /*
- * This class draws the maze on the screen.
- * It shows:
- * - The maze walls
- * - The start (green) and goal (red) positions
- * - Visited cells (sky blue)
- * - Cells to visit next (light blue)
- * - The final path when found (dark blue)
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
+
 package mazesolver;
 
 import java.awt.Color;

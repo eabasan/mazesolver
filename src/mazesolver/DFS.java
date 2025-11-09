@@ -1,9 +1,8 @@
 /*
- * This class implements the Depth-First Search algorithm.
- * DFS explores the maze by going as far as possible in each direction
- * before backing up and trying a different direction.
- * It's good at finding any path to the goal, but not necessarily the shortest one.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
+
 package mazesolver;
 
 import java.util.*;
