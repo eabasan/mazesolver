@@ -1,6 +1,7 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
+ * This interface defines what every search algorithm must do.
+ * Any class that wants to solve the maze must implement this interface.
+ * Examples are BFS (Breadth-First Search) and DFS (Depth-First Search).
  */
 package mazesolver;
 
@@ -11,5 +12,8 @@ import java.util.List;
  * @author elena
  */
 public interface SearchAlgorithm {
-    java.util.List<Node> findPath(Maze maze, Node start, Node goal);
+    // Find a path from start to goal in the given maze
+    // Returns a list of nodes that make up the path
+    // If no path is found, returns null
+    List<Node> findPath(Maze maze, Node start, Node goal);
 }

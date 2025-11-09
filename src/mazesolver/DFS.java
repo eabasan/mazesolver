@@ -1,6 +1,8 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * This class implements the Depth-First Search algorithm.
+ * DFS explores the maze by going as far as possible in each direction
+ * before backing up and trying a different direction.
+ * It's good at finding any path to the goal, but not necessarily the shortest one.
  */
 package mazesolver;
 
@@ -14,22 +16,33 @@ public class DFS implements SearchAlgorithm {
 
     @Override
     public List<Node> findPath(Maze maze, Node start, Node goal) {
+        // Stack to store positions we need to check
         Stack<Node> stack = new Stack<>();
+        // Set to remember positions we already checked
         Set<Node> visited = new HashSet<>();
+        // Start from the beginning position
         stack.push(start);
         visited.add(start);
 
+        // Keep looking until we check all possible positions
         while (!stack.isEmpty()) {
+            // Get the next position to check
             Node cur = stack.pop();
+            // If we found the goal, we're done!
             if (cur.equals(goal)) {
                 return reconstructPath(cur);
             }
 
-            int[][] dirs = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}}; // up,left,down,right
+            // Check all four directions: up, left, down, right
+            int[][] dirs = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
             for (int[] d : dirs) {
+                // Calculate new position
                 int nr = cur.row + d[0], nc = cur.col + d[1];
+                // Check if we can move to this new position
                 if (maze.canMove(cur.row, cur.col, nr, nc)) {
+                    // Create a new node for this position
                     Node neigh = new Node(nr, nc, cur);
+                    // If we haven't been here before, add it to check later
                     if (!visited.contains(neigh)) {
                         visited.add(neigh);
                         stack.push(neigh);
@@ -37,16 +50,21 @@ public class DFS implements SearchAlgorithm {
                 }
             }
         }
+        // If we checked everywhere and didn't find the goal, there's no path
         return Collections.emptyList();
     }
 
+    // Follow the parent links from goal back to start to get the path
     private List<Node> reconstructPath(Node goal) {
         List<Node> path = new ArrayList<>();
+        // Start at the goal
         Node cur = goal;
+        // Keep going until we reach the start (which has no parent)
         while (cur != null) {
             path.add(cur);
             cur = cur.parent;
         }
+        // Since we built the path backwards, reverse it
         Collections.reverse(path);
         return path;
     }

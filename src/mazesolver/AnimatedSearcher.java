@@ -13,28 +13,35 @@ import javax.swing.*;
  */
 public class AnimatedSearcher {
 
+   // Animated version of Breadth-First Search
    public static List<Node> bfsAnimate(Maze maze, Node start, Node goal, MazePanel panel, int delayMs) {
+        // Same setup as BFS
         Queue<Node> queue = new LinkedList<>();
         Set<Node> visited = new HashSet<>();
         queue.add(start);
         visited.add(start);
+        // Show the start position as frontier (light blue)
         SwingUtilities.invokeLater(() -> panel.addFrontier(start));
 
         while (!queue.isEmpty()) {
+            // Get next position to check
             Node cur = queue.poll();
 
+            // Update display: remove from frontier and mark as visited
             SwingUtilities.invokeLater(() -> {
-                panel.removeFrontier(cur);
-                panel.addVisited(cur);
+                panel.removeFrontier(cur);  // Remove light blue
+                panel.addVisited(cur);      // Add sky blue
             });
-            sleep(delayMs);
+            sleep(delayMs);  // Wait so we can see the change
 
+            // If we found the goal, show the path and we're done
             if (cur.equals(goal)) {
                 List<Node> path = reconstructPath(cur);
                 SwingUtilities.invokeLater(() -> panel.setPath(path));
                 return path;
             }
 
+            // Check all four directions (up, left, down, right)
             int[][] dirs = {{-1,0},{0,-1},{1,0},{0,1}};
             for (int[] d : dirs) {
                 int nr = cur.row + d[0], nc = cur.col + d[1];
@@ -43,37 +50,46 @@ public class AnimatedSearcher {
                     if (!visited.contains(neigh)) {
                         visited.add(neigh);
                         queue.add(neigh);
+                        // Show new position in frontier (light blue)
                         SwingUtilities.invokeLater(() -> panel.addFrontier(neigh));
                     }
                 }
             }
-            sleep(delayMs);
+            sleep(delayMs);  // Wait so we can see the changes
         }
+        // If we checked everywhere and didn't find the goal, there's no path
         return Collections.emptyList();
     }
 
+    // Animated version of Depth-First Search
     public static List<Node> dfsAnimate(Maze maze, Node start, Node goal, MazePanel panel, int delayMs) {
+        // Same setup as DFS
         Stack<Node> stack = new Stack<>();
         Set<Node> visited = new HashSet<>();
         stack.push(start);
         visited.add(start);
+        // Show the start position as frontier (light blue)
         SwingUtilities.invokeLater(() -> panel.addFrontier(start));
 
         while (!stack.isEmpty()) {
+            // Get next position to check
             Node cur = stack.pop();
 
+            // Update display: remove from frontier and mark as visited
             SwingUtilities.invokeLater(() -> {
-                panel.removeFrontier(cur);
-                panel.addVisited(cur);
+                panel.removeFrontier(cur);  // Remove light blue
+                panel.addVisited(cur);      // Add sky blue
             });
-            sleep(delayMs);
+            sleep(delayMs);  // Wait so we can see the change
 
+            // If we found the goal, show the path and we're done
             if (cur.equals(goal)) {
                 List<Node> path = reconstructPath(cur);
                 SwingUtilities.invokeLater(() -> panel.setPath(path));
                 return path;
             }
 
+            // Check all four directions (up, left, down, right)
             int[][] dirs = {{-1,0},{0,-1},{1,0},{0,1}};
             for (int[] d : dirs) {
                 int nr = cur.row + d[0], nc = cur.col + d[1];
@@ -82,12 +98,14 @@ public class AnimatedSearcher {
                     if (!visited.contains(neigh)) {
                         visited.add(neigh);
                         stack.push(neigh);
+                        // Show new position in frontier (light blue)
                         SwingUtilities.invokeLater(() -> panel.addFrontier(neigh));
                     }
                 }
             }
-            sleep(delayMs);
+            sleep(delayMs);  // Wait so we can see the changes
         }
+        // If we checked everywhere and didn't find the goal, there's no path
         return Collections.emptyList();
     }
 
